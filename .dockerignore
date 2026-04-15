@@ -1,0 +1,41 @@
+# Ignore data files
+data/
+*.parquet
+*.csv
+
+# Ignore MLflow tracking data
+mlruns/
+mlartifacts/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Git data
+.git/
+.gitignore
+
+# Ignore notebooks and docs
+*.ipynb
+*.md
+*.pdf
+
+# Ignore test files
+test_app.py
+.pytest_cache/
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
