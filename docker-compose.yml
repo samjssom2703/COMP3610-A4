@@ -1,0 +1,33 @@
+# docker-compose.yml – Orchestrates the prediction API and MLflow services.
+# Start everything:   docker compose up --build
+# Shut down:          docker compose down
+
+services:
+  # ---------- Prediction API ----------
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=models/rf_regressor.joblib
+      - MODEL_VERSION=1
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - mlflow
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ---------- MLflow Tracking Server (Bonus) ----------
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.22.0
+    ports:
+      - "5000:5000"
+    command: mlflow server --host 0.0.0.0 --port 5000
+    volumes:
+      - mlflow-data:/mlflow
+
+volumes:
+  mlflow-data:
