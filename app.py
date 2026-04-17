@@ -215,8 +215,8 @@ async def lifespan(app: FastAPI):
             "feature_names": MODEL_FEATURES,
             "training_metrics": {
                 "MAE": 1.18,
-                "RMSE": 2.28,
-                "R2": 0.64,
+                "RMSE": 2.23,
+                "R2": 0.65,
             },
         }
         logger.info("Model loaded successfully from %s", MODEL_PATH)
@@ -301,12 +301,12 @@ async def predict_batch(batch: BatchInput):
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
-    """Return API health status, model-loaded flag, and uptime."""
+    """Return API status, model loaded flag, model version, and uptime."""
     return HealthResponse(
         status="healthy",
         model_loaded=ml_model is not None,
         model_version=MODEL_VERSION,
-        uptime_seconds=round(time.time() - start_time, 1),
+        uptime_seconds=round(time.time() - start_time, 2),
     )
 
 
